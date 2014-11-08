@@ -26,6 +26,23 @@ var randHeight = function() {
     return Math.random()*580+10;
 };
 
+var gameOver = function() {
+  gameOptions.highScore[0] = Math.max(gameOptions.currentScore[0], gameOptions.highScore[0]);
+  gameOptions.currentScore[0] = 0;
+  gameOptions.collisions[0]++;
+}
+
+var moveEnemies = function () {
+  incrementScore();
+  circles.transition()
+  .duration(500)
+  .attr('cx', randWidth)
+  .attr('cy', randHeight)
+  .attr('r', 10)
+  .attr('fill', 'white')
+}
+
+
 var circles = d3.select('.gameBoard')
   .selectAll('circle')
   .data(enemies)
@@ -35,12 +52,26 @@ var circles = d3.select('.gameBoard')
   .attr('cy', randHeight)
   .attr('r', 10)
   .attr('fill', 'white')
+  //.on('mouseover',gameOver);
 
-window.setInterval(incrementScore, 100);
+var drag = d3.behavior.drag()
+  .on('drag', function(){console.log('it worked!')});
+  //.on("dragstart", function () {console.log('dragged')})
+  //.on("dragend"/*, dragended*/);
 
-var moveEnemies = function () {
-  .attr('cx', randWidth)
-  .attr('cy', randHeight)
-  .attr('r', 10)
-  .attr('fill', 'white')
-}
+var player = d3.select('.gameBoard')
+  .selectAll('rect')
+  .data([null])
+  .enter()
+  .append('rect')
+  .attr('x', 476)
+  .attr('y', 300)
+  .attr('width', 30)
+  .attr('height', 30)
+  .attr('fill','pink')
+  .call(drag)
+
+window.setInterval(moveEnemies, 1000);
+
+
+
