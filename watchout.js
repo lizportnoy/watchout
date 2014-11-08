@@ -11,7 +11,6 @@ var gameDisplay = d3.select('.scoreboard')
   .data([gameOptions.highScore, gameOptions.currentScore, gameOptions.collisions]);
 
 var incrementScore = function(){
-  console.log('!!');
   gameOptions.currentScore[0]++;
   gameDisplay.text(function(d){return d[0]});
 }
@@ -57,6 +56,23 @@ var player = d3.select('.gameBoard')
   .call(drag)
 
 
+// var detectCollision = function () {
+//   console.log('this ran');
+//   var enemyX;
+//   var enemyY;
+//   d3.select(this).each(function(d) {if(d.cx!==undefined){enemyX = d.cx});
+//   d3.select(this).each(function(d) {if(d.cy!==undefined){enemyY = d.cy});
+//   // if the x,y coordinates of the player match any of the x,y coordinates of the enemies within a set distance
+//   var _distance = function(player) {
+//     return Math.sqrt(Math.pow(player.x[0]-enemyX,2)+Math.pow(player.y[0]-enemyY,2));
+//   };
+//    console.log(_distance(playerStorage));
+//    if(_distance(playerStorage)<30){
+//      gameOver();
+//    }
+//   //}
+// };
+
 var detectCollision = function () {
   // if the x,y coordinates of the player match any of the x,y coordinates of the enemies within a set distance
   var _distance = function(player, enemy) {
@@ -67,6 +83,13 @@ var detectCollision = function () {
       gameOver();
     }
   }
+};
+
+var tweenFunc = function() {
+  var self = this;
+  return function(t) {
+    detectCollision.call(self);
+  };
 };
   //.on("dragstart", function () {console.log('dragged')})
   //.on("dragend"/*, dragended*/);
@@ -102,7 +125,7 @@ var moveEnemies = function () {
 
   circles.transition()
     .duration(500)
-    .tween('custom', detectCollision)
+    .tween('custom', tweenFunc)
     .attr('cx', function(d) {d.update(); return d.cx})
     .attr('cy', function(d) { return d.cy})
     .attr('r', function(d) {return d.r})
