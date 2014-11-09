@@ -2,11 +2,25 @@
 
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+body{
+}
 
 .gameBoard {
   display: block;
   margin: auto;
   width: 80%;
   height: 600px;
-  background-color: black;
+  background: url('galaxy.jpeg') no-repeat center;
+  background-size: 100% 100%;
+}
+
+.enemy {
+  -webkit-animation: all 3s linear infinite;
+  /*-webkit-transform-origin: 50% 50%;*/
+}
+
+@-webkit-keyframes all
+{
+  0%   {-webkit-transform: rotateZ(0deg);}
+  100% {-webkit-transform: rotateZ(360deg);}
 }

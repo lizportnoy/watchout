@@ -21,7 +21,6 @@ var over = function() {
   gameOptions.highScore[0] = Math.max(gameOptions.currentScore[0], gameOptions.highScore[0]);
   gameOptions.currentScore[0] = 0;
   gameOptions.collisions[0]++;
-  updateScore();
 }
 
 // throttles collision detection
@@ -153,4 +152,4 @@ var detect = function () {
   });
 }
 
-
+setInterval(updateScore,100);
